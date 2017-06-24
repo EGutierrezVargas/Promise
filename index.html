@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" id="id">
+    <input type="submit" value="Enviar" id="enviar">
+    <span id="realizado"></span>
+    <span id="continuacion"></span>
+    <script>
+        $(document).ready(function() {
+            var id = $('#id').val();
+            var realizado = $('#realizado');
+            var continuacion = $('#continuacion');
+            $('#enviar').click(function() {
+                var p1 = $.ajax({
+                    url: 'https://jsonplaceholder.typicode.com/users/' + id
+                })
+                var p2 = $.ajax({
+                    url: 'https://jsonplaceholder.typicode.com/posts/' + id + 1
+                })
+
+                p1.then(function(data) {
+                    setTimeout(function() {
+                        realizado.text('Trajo mi primer ajax con exito' + JSON.stringify(data));
+                    }, 1000)
+                    realizado.text('Se está traendo datos del primer ajax esperando ...');
+                });
+                p2.then(function(data) {
+                    setTimeout(function() {
+                        realizado.text('Trajo mi segundo ajax con exito' + JSON.stringify(data));
+                        console.log('termino')
+                    }, 3000)
+
+                    realizado.text('Se está traendo datos del segundo ajax esperando ...');
+                })
+                p1.catch(function(data) {
+                    console.log('Trajo mi primer ajax con errores' + JSON.stringify(data))
+
+                });
+                p2.catch(function(data) {
+                    console.log('Error de mi segundo' + JSON.stringify(data))
+                })
+            });
+
+        })
+    </script>
+</body>
+
+</html>
