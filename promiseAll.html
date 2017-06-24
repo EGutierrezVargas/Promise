@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Promise All</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <input type="text" id="id">
+    <input type="submit" value="Enviar" id="enviar">
+    <script>
+        function promesas() {
+            var id = $('#id').val();
+            var p1 = new Promise((resolve, reject) => {
+                resolve($.ajax({
+                    url: 'https://jsonplaceholder.typicode.com/posts/' + id
+                }))
+            });
+
+            var p2 = new Promise((resolve, reject) => {
+                resolve($.ajax({
+                    url: 'https://jsonplaceholder.typicode.com/users/' + id
+                }))
+            });
+            Promise.all([p1, p2]).then(data => {
+                console.log('Primer ajax : ' + data[0].title);
+                console.log('Segundo ajax : ' + data[1].name);
+            }, error => {
+                console.log('Hubo un error' + JSON.stringify(error))
+            });
+        }
+        $(document).ready(function() {
+            $('#enviar').click(function() {
+                promesas();
+            });
+        });
+    </script>
+</body>
+
+</html>
