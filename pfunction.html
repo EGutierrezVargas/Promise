@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Promise With Function</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <input type="text" id="id">
+    <input type="submit" value="Enviar" id="enviar">
+    <span id="realizado"></span>
+    <script>
+        function p1(id) {
+            var promise = $.ajax({
+                url: 'https://jsonplaceholder.typicode.com/users/' + id
+            })
+            promise.then(function(data) {
+                console.log('Primer Ajax')
+                console.log(JSON.stringify(data.name))
+                console.log(JSON.stringify(data.username))
+
+            })
+            promise.catch(function(data) {
+                console.log('Error al Traer Datos')
+            })
+        }
+
+        function p2(id) {
+            var promise = $.ajax({
+                url: 'https://jsonplaceholder.typicode.com/posts/' + id
+            })
+            promise.then(function(data) {
+                console.log('Traendo Datos')
+                setTimeout(function() {
+                    console.log('Segundo Ajax')
+                    console.log(JSON.stringify(data.id))
+                    console.log(JSON.stringify(data.title))
+                    console.log('Termino consultas')
+                }, 2000)
+            })
+            promise.catch(function(data) {
+                console.log('Error al Traer Datos')
+            })
+        }
+        $(document).ready(function() {
+            $('#enviar').click(function() {
+                var id = $('#id').val();
+                p1(id);
+                p2(id);
+            });
+        });
+    </script>
+</body>
+
+</html>
